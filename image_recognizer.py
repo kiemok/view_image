@@ -64,9 +64,10 @@ def load_config():
     if not provider_config.get('api_key') or \
        provider_config['api_key'].startswith('sk-你的') or \
        provider_config['api_key'].startswith('你的') or \
-       provider_config['api_key'].startswith('${'):
+       provider_config['api_key'].startswith('${') or \
+       '-your-' in provider_config['api_key']:
         print(f"错误: 请先在 config.json 中配置 {provider} 的 API Key，"
-              f"或设置对应的环境变量（如 AGNES_API_KEY）")
+              f"填入你自己的真实密钥")
         sys.exit(1)
     
     return config
