@@ -1,6 +1,6 @@
 # 图像识别程序
 
-基于阿里云百炼 / OpenAI / Agnes / 智谱AI 等多提供商图像识别命令行工具，集成 Reasonix Desktop 全局 Skill，可直接在对话中识图并回答。
+基于阿里云百炼 / OpenAI / Agnes / 智谱AI/类OpenAI 等多提供商图像识别命令行工具，集成 Reasonix Desktop 全局 Skill，可直接在对话中识图并回答。
 
 ---
 
@@ -80,8 +80,9 @@ API Key 支持环境变量引用（如 `"${AGNES_API_KEY}"`），方便跨设备
 |:---|:---|:---|
 | **阿里云百炼** | qwen3.5-omni-plus-2026-03-15, qwen-vl-plus, qwen-vl-max | `sk-xxx` |
 | **OpenAI** | gpt-4o, gpt-4-turbo | `sk-xxx` |
-| **Agnes** | agnes-2.0-flash | `${AGNES_API_KEY}`（环境变量） |
-| **智谱AI** | glm-4v-plus | `xxx` |
+| **Agnes** | agnes-2.0-flash | `sk-xxx` |
+| **智谱AI** | glm-4v-plus | `sk-xxx` |
+| **类OpenAI** | model_name | `sk-xxx` |
 
 ### 阿里云百炼配置
 
@@ -120,7 +121,7 @@ API Key 支持环境变量引用（如 `"${AGNES_API_KEY}"`），方便跨设备
     "provider": "agnes",
     "providers": {
         "agnes": {
-            "api_key": "${AGNES_API_KEY}",
+            "api_key": "sk-你的Agenes Key",
             "model_name": "agnes-2.0-flash",
             "api_base_url": "https://apihub.agnes-ai.com/v1/chat/completions"
         }
@@ -192,7 +193,7 @@ python image_recognizer.py image.png --prompt "Describe in English"
 
 # 带自定义提问
 /view_image @image.png -p "这张图片里有什么文字？"
-
+/view_image @image.png 这张图片里有什么文字？
 # 绝对路径
 /view_image C:\photos\test.jpg
 ```
