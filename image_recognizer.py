@@ -14,6 +14,7 @@ import glob
 from datetime import datetime, timedelta
 import requests
 
+from pathlib import Path
 
 def get_mime_type(file_path):
     """根据文件扩展名返回对应的 MIME 类型"""
@@ -44,7 +45,8 @@ def load_config():
         print(f"错误: 配置文件 {config_path} 不存在")
         sys.exit(1)
     
-    with open(config_path, 'r', encoding='utf-8') as f:
+    with open(config_path, 'r', encoding='utf-8-sig') as f:
+
         config = json.load(f)
     
     provider = config.get('provider', 'aliyun')
@@ -55,11 +57,12 @@ def load_config():
         sys.exit(1)
     
     provider_config = providers[provider]
-    
     # 展开环境变量引用
     for key in ('api_key', 'api_base_url', 'model_name'):
         if key in provider_config:
             provider_config[key] = expand_env_vars(provider_config[key])
+
+    
     
     if not provider_config.get('api_key') or \
        provider_config['api_key'].startswith('sk-你的') or \
@@ -276,9 +279,10 @@ def save_result(image_path, result, prompt_text=None):
     image_name = os.path.splitext(os.path.basename(image_path))[0]
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_filename = f"{image_name}_result_{timestamp}.txt"
-    output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), output_filename)
+    output_path = os.path.join(str(Path.home() / "Desktop"), output_filename)
     
     with open(output_path, 'w', encoding='utf-8') as f:
+
         f.write(f"图像识别结果\n")
         f.write(f"{'='*50}\n\n")
         f.write(f"图片路径: {image_path}\n")
